@@ -1,6 +1,6 @@
 <template>
 	<view>
-		关注
+		关注一下宝贝
 	</view>
 </template>
 
