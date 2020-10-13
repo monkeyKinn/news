@@ -3,6 +3,8 @@
     {
       "path": "pages/tabbar/index/index",
       "style": {
+        // 取消默认顶部导航栏,custom 定制的
+        "navigationStyle":"custom",
         "navigationBarTitleText": "首页pagestext"
       }
     }, {
