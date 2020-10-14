@@ -1,30 +1,40 @@
 <template>
-	<view class="content">
+  <view class="content">
     <!-- 自定义导航栏 -->
     <navbar></navbar>
     <!-- 自定义选项卡 -->
-    <tab></tab>
-    
+    <tab :list="tabList"></tab>
+
     <!-- <view v-for="item in 100">
       {{item}} 内容
     </view> -->
-	</view>
+  </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				title: 'Hello'
-			}
-		},
-		onLoad() {
-
-		},
-		methods: {
-
-		}
-	}
+  export default {
+    data() {
+      return {
+        title: 'Hello',
+        tabList: []
+      }
+    },
+    onLoad() { // 页面一进入的时候
+      this.getLabel();
+    },
+    methods: {
+      getLabel() {
+        // 获取云函数
+        uniCloud.callFunction({
+          name: 'get_label',
+        }).then((res) => {
+          const {result} = res;
+          this.tabList = result.data
+          console.log(this.tabList)
+        })
+      }
+    }
+  }
 </script>
 
 <style lang="scss" scoped>

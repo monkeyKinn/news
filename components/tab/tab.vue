@@ -16,27 +16,18 @@
 
 <script>
 	export default {
+    // 父传子
+    props: {
+      list: {
+        type: Array,
+        default() {
+          return [];
+        }
+      }
+    },
 		data() {
 			return {
-				list: [{
-          name: "nui-app"
-        },{
-          name: "vue"
-        },{
-          name: "java"
-        },{
-          name: "前端"
-        },{
-          name: "后端"
-        },{
-          name: "中台"
-        },{
-          name: "全栈"
-        },{
-          name: "spring boot"
-        },{
-          name: "spring cloud"
-        }],
+				
 			};
 		}
 	}
