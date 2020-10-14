@@ -8,7 +8,9 @@
       <view class="navbar-content" :style="{height: navBarHeight + 2 + 'px',width: windowWidth + 'px'}">
         <!-- 搜索 -->
         <view class="navbar-search">
-          <view class="navbar-search-icon"></view>
+          <view class="navbar-search-icon">
+            <uni-icons type="search" size="18" color="#999"></uni-icons>
+          </view>
           <view class="navbar-search-text">app,vue</view>
         </view>
       </view>
@@ -85,9 +87,6 @@
           background-color: #fff;
 
           .navbar-search-icon {
-            height: 10px;
-            width: 10px;
-            border: 1px red solid;
             margin-right: 10px;
           }
 
