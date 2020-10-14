@@ -17,7 +17,7 @@
 
     </view>
     <!-- 内容占位,不然就遮了 -->
-    <view :style="{height: statusBarHeight + 45 +'px'}"></view>
+    <view :style="{height: statusBarHeight + navBarHeight + 2 +'px'}"></view>
   </view>
 </template>
 
