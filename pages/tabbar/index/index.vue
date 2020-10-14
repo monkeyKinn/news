@@ -24,14 +24,17 @@
     },
     methods: {
       getLabel() {
-        // 获取云函数
-        uniCloud.callFunction({
-          name: 'get_label',
-        }).then((res) => {
-          const {result} = res;
-          this.tabList = result.data
-          console.log(this.tabList)
+        // 封装后
+        // console.log(this.$api);
+        this.$api.get_label({
+          name: 'get_label'
+        }).then(res=>{
+          const {data} = res
+          this.tabList = data
         })
+        
+        
+        
       }
     }
   }
