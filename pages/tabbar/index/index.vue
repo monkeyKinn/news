@@ -1,5 +1,5 @@
 <template>
-  <view class="content">
+  <view class="home">
     <!-- 自定义导航栏 -->
     <navbar></navbar>
     <!-- 自定义选项卡 -->
@@ -10,6 +10,9 @@
     <!-- <view v-for="item in 100">
       {{item}} 内容
     </view> -->
+    <list-scroll>
+      <list-card v-for="item in 5"></list-card>
+    </list-scroll>
   </view>
 </template>
 
@@ -26,7 +29,10 @@
       this.getLabel();
     },
     methods: {
-      tab({data,index}) {
+      tab({
+        data,
+        index
+      }) {
         console.log("data: ", data);
         console.log("index: ", index);
       },
@@ -49,5 +55,19 @@
 </script>
 
 <style lang="scss" scoped>
+  // 整个页面
+  page {
+    height: 100%;
+    display: flex;
+  }
 
+  .home {
+    display: flex;
+    // 垂直排列
+    flex-direction: column;
+    // 撑满整个元素
+    flex: 1;
+    border: 1px red solid;
+    overflow: hidden;
+  }
 </style>

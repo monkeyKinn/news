@@ -6,8 +6,8 @@
         // 取消默认顶部导航栏,custom 定制的
         "navigationStyle":"custom",
         // 状态栏颜色
-        "navigationBarTextStyle":"white"
-        // "navigationBarTitleText": "首页pagestext"
+        "navigationBarTextStyle":"white",
+        "navigationBarTitleText": "首页pagestext"
       }
     }, {
       "path": "pages/tabbar/follow/follow",
