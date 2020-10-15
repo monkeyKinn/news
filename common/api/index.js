@@ -14,7 +14,7 @@ let module = {}
 requireApi.keys().forEach((key, index) => {
   // 排除index.js文件
   if ('./index.js' === key) return;
-  console.log(key);
+  console.log("key: ",key);
   // 对象合并
   Object.assign(module, requireApi(key))
 })

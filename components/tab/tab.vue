@@ -3,7 +3,13 @@
 		<scroll-view scroll-x class="tab-scroll">
       <!-- 滚动内容 -->
       <view  class="tab-scroll-box">
-        <view class="tab-scroll-item" :key="index" v-for="(item,index) in list">{{item.name}}</view>
+        <view class="tab-scroll-item" 
+        :key="index" 
+        v-for="(item,index) in list" 
+        @click="clickTab(item,index)"
+        :class="{active: activeIndex === index}">
+        {{item.name}}
+        </view>
       </view>
     </scroll-view>
     <!-- 齿轮图标 -->
@@ -27,9 +33,19 @@
     },
 		data() {
 			return {
-				
+				activeIndex: 0
 			};
-		}
+		},
+    methods: {
+      clickTab(item,index){
+        this.activeIndex = index;
+        // 子传父
+        this.$emit('tab',{
+          data: item,
+          index: index
+        })
+      }
+    }
 	}
 </script>
 
@@ -65,6 +81,10 @@
           padding: 0 10px;
           color: #333;
           font-size: 14px;
+          
+          &.active {
+            color: $mk-base-color;
+          }
         }
       }
     }
