@@ -5,14 +5,14 @@
     <!-- 自定义选项卡 -->
     <!-- :list父传子 -->
     <!-- @tab 子传父 -->
-    <tab :list="tabList" @tab="tab"></tab>
-    
+    <tab :list="tabList" @tab="tab" :tabIndex="tabIndex"></tab>
+
     <view class="home-list">
-      <list :tab="tabList"></list>
+      <list :tab="tabList" @change="change" :activeIndex="activeIndex"></list>
     </view>
-    
+
   </view>
-  
+
 </template>
 
 <script>
@@ -20,7 +20,9 @@
     data() {
       return {
         title: 'Hello',
-        tabList: []
+        tabList: [],
+        tabIndex: 0,
+        activeIndex: 0
       }
     },
     onLoad() { // 页面一进入的时候
@@ -28,12 +30,16 @@
       this.getLabel();
     },
     methods: {
+      change(current) {
+        this.tabIndex = current
+      },
       tab({
         data,
         index
       }) {
         console.log("data: ", data);
         console.log("index: ", index);
+        this.activeIndex = index
       },
       getLabel() {
         // 封装后
@@ -71,8 +77,6 @@
     .home-list {
       flex: 1;
       box-sizing: border-box;
-      border: 1px red solid;
-
     }
   }
 </style>
