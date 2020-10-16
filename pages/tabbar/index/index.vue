@@ -6,16 +6,13 @@
     <!-- :list父传子 -->
     <!-- @tab 子传父 -->
     <tab :list="tabList" @tab="tab"></tab>
-
-    <!-- <view v-for="item in 100">
-      {{item}} 内容
-    </view> -->
-    <list-scroll>
-      <list-card mode="base"></list-card>
-      <list-card mode="column"></list-card>
-      <list-card mode="image"></list-card>
-    </list-scroll>
+    
+    <view class="home-list">
+      <list :tab="tabList"></list>
+    </view>
+    
   </view>
+  
 </template>
 
 <script>
@@ -69,7 +66,13 @@
     flex-direction: column;
     // 撑满整个元素
     flex: 1;
-    border: 1px red solid;
     overflow: hidden;
+
+    .home-list {
+      flex: 1;
+      box-sizing: border-box;
+      border: 1px red solid;
+
+    }
   }
 </style>
