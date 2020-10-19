@@ -45,8 +45,11 @@
         const {
           current
         } = e.detail;
-        this.getList(current)
         this.$emit('change', current)
+        // 当数据不存在或者长度为0的时候才去请求数据
+        if (!this.listCatchData[current] || this.listCatchData.length === 0) {
+          this.getList(current)
+        }
       },
       getList(current) {
         this.$api.get_list({
@@ -54,11 +57,11 @@
         }).then(res => {
           const {
             data
-          } = res
-          console.log("data: ", data);
-          // 通知页面 数组或者对象发生了变化,并刷新
+          } = res;
+          console.log("res: ", res);
+          // 通知页面 数组或者对象发生了变化,并刷新 懒加载
           // 1.需要改变的数组 2.第几项, 3.实际要修改的内容
-          this.$set(this.listCatchData,current,data);
+          this.$set(this.listCatchData, current, data);
         })
       }
     }

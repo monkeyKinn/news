@@ -47,10 +47,14 @@
         this.$api.get_label({
           name: 'get_label'
         }).then(res => {
-          console.log("get_label_res: ", res);
           const {
             data
           } = res
+          // 在数组最前端加入内容
+          data.unshift({
+            name: '全部'
+          })
+          console.log("get_label_res: ", res);
           this.tabList = data
         })
       }

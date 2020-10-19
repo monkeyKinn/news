@@ -8,13 +8,19 @@ exports.main = async (event, context) => {
   const {
     name
   } = event
+  let matchObject = {}
+  if (name !== '全部') {
+    matchObject = {
+      classify: name
+    }
+  }
   // 聚合: 更精细化的去处理数据求和 分组 指定哪些字段
   // 获取数据表
   const artical = await db.collection('article')
     .aggregate()
-    .match({
-      classify: name
-    })
+    .match(
+      matchObject
+    )
     .project({
       content: 0
     })
