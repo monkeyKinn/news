@@ -4,13 +4,28 @@ const db = uniCloud.database();
 exports.main = async (event, context) => {
   //event为客户端上传的参数
   // console.log('event : ', event)
-  // 2.在云数据库中找到artical的表。并得到所有数据
-  let artical = await db.collection('article')
-    .field({
-      // true 返回这个字段,false不返回
-      content: false
+  // 接收分类,通过分类筛选数据
+  const {
+    name
+  } = event
+  // 聚合: 更精细化的去处理数据求和 分组 指定哪些字段
+  // 获取数据表
+  const artical = await db.collection('article')
+    .aggregate()
+    .match({
+      classify: name
     })
-    .get();
+    .project({
+      content: 0
+    })
+    .end()
+  // 2.在云数据库中找到artical的表。并得到所有数据
+  // const artical = await db.collection('article')
+  //   .field({
+  //     // true 返回这个字段,false不返回
+  //     content: false
+  //   })
+  //   .get();
   //返回数据给客户端
   return {
     code: 200,
