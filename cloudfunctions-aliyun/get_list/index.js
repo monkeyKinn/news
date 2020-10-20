@@ -6,7 +6,9 @@ exports.main = async (event, context) => {
   // console.log('event : ', event)
   // 接收分类,通过分类筛选数据
   const {
-    name
+    name,
+    page = 1,
+    pageSize = 10
   } = event
   let matchObject = {}
   if (name !== '全部') {
@@ -24,6 +26,10 @@ exports.main = async (event, context) => {
     .project({
       content: 0
     })
+    // 每次跳过多少条数据
+    .skip(pageSize*(page-1))
+    // 每次输出的数据
+    .limit(pageSize)
     .end()
   // 2.在云数据库中找到artical的表。并得到所有数据
   // const artical = await db.collection('article')
