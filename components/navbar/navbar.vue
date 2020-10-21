@@ -20,7 +20,12 @@
         </view>
         <view class="navbar-search" v-else>
           <!-- 搜索页显示 -->
-          <input class="navbar-search-text" type="text" placeholder="请输入您要搜索的内容">
+          <input class="navbar-search-text" 
+          type="text" 
+          placeholder="请输入您要搜索的内容" 
+          v-model="val"
+          @input="inputChange"
+          >
         </view>
       </view>
 
@@ -43,16 +48,21 @@
         statusBarHeight: 20,
         navBarHeight: 45,
         windowWidth: 375,
+        val: ''
       };
     },
     methods: {
       search_click() {
-        if(this.isSearch) return
+        if (this.isSearch) return
         console.log('点击了');
         // 跳转到搜索页面
         uni.navigateTo({
           url: "/pages/home-search/home-search"
         })
+      },
+      inputChange(e) {
+        const {value} = e.detail
+        this.$emit('input',value)
       }
     },
     created() {
@@ -116,7 +126,7 @@
           }
 
           .navbar-search-text {
-            font-size: 14px;
+            font-size: 12px;
             color: #999999;
           }
         }
