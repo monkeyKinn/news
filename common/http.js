@@ -5,11 +5,15 @@ export default function $http(options){
     url,
     data
   } = options;
+  const dataObj = {
+    user_id: '5f851a02f7b7f9000121f577',
+    ...data
+  }
   return new Promise((reslove, reject) => {
     // 获取云函数
     uniCloud.callFunction({
       name: url,
-      data
+      data: dataObj
     }).then(res => {
       console.log(res)
       if (res.result.code === 200) {

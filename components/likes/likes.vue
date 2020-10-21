@@ -20,6 +20,15 @@
         like: false,
       };
     },
+    watch: {
+      // 监听什么就什么方法
+      item(newVal) {
+        this.like = this.like = this.item.is_like
+      }
+    },
+    created() {
+      this.like = this.item.is_like
+    },
     methods: {
       likeTab() {
         this.like = !this.like
@@ -27,11 +36,19 @@
         this.setUpdateLikes();
       },
       setUpdateLikes() {
+        uni.showLoading();
         this.$api.update_likes({
           user_id: '5f851a02f7b7f9000121f577',
           article_id: this.item._id
         }).then(res => {
+          uni.hideLoading();
+          uni.showToast({
+            title: this.like ? '收藏成功' : '取消收藏',
+            icon:'none'
+          })
           console.log("update_likes: ", res);
+        }).catch(() => {
+          uni.hideLoading();
         })
       }
     }
