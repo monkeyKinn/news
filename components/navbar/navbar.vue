@@ -5,13 +5,22 @@
       <!-- 小程序状态栏占位,不然就遮了 -->
       <view :style="{height: statusBarHeight +'px'}"></view>
       <!-- 导航栏内容 -->
-      <view class="navbar-content" :style="{height: navBarHeight + 2 + 'px',width: windowWidth + 'px'}">
+      <view class="navbar-content" :style="{height: navBarHeight + 2 + 'px',width: windowWidth + 'px'}" @click.stop="search_click"
+        :class="{search:isSearch}">
+        <view class="navbar-content_search-icon">
+          <uni-icons type="back" size="22" color="#fff"></uni-icons>
+        </view>
         <!-- 搜索 -->
-        <view class="navbar-search">
+        <view class="navbar-search" v-if="!isSearch">
+          <!-- 非搜索页显示 -->
           <view class="navbar-search-icon">
             <uni-icons type="search" size="18" color="#999"></uni-icons>
           </view>
           <view class="navbar-search-text">app,vue</view>
+        </view>
+        <view class="navbar-search" v-else>
+          <!-- 搜索页显示 -->
+          <input class="navbar-search-text" type="text" placeholder="请输入您要搜索的内容">
         </view>
       </view>
 
@@ -23,12 +32,28 @@
 
 <script>
   export default {
+    props: {
+      isSearch: {
+        type: Boolean,
+        default: false
+      }
+    },
     data() {
       return {
         statusBarHeight: 20,
         navBarHeight: 45,
         windowWidth: 375,
       };
+    },
+    methods: {
+      search_click() {
+        if(this.isSearch) return
+        console.log('点击了');
+        // 跳转到搜索页面
+        uni.navigateTo({
+          url: "/pages/home-search/home-search"
+        })
+      }
     },
     created() {
       // 获取手机系统信息
@@ -47,7 +72,7 @@
       this.windowWidth = menuButtonInfo.left;
       // #endif
       // ------------------ h5 app mp-alipay不支持
-      
+
     }
   }
 </script>
@@ -91,8 +116,21 @@
           }
 
           .navbar-search-text {
-            font-size: 12px;
+            font-size: 14px;
             color: #999999;
+          }
+        }
+
+        &.search {
+          padding-left: 0;
+
+          .navbar-content_search-icon {
+            margin: 0 10px;
+          }
+
+          .navbar-search {
+            // 圆角
+            border-radius: 5px;
           }
         }
       }

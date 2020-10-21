@@ -4,9 +4,9 @@
       "path": "pages/tabbar/index/index",
       "style": {
         // 取消默认顶部导航栏,custom 定制的
-        "navigationStyle":"custom",
+        "navigationStyle": "custom",
         // 状态栏颜色
-        "navigationBarTextStyle":"white",
+        "navigationBarTextStyle": "white",
         "navigationBarTitleText": "首页pagestext"
       }
     }, {
@@ -23,6 +23,13 @@
         "enablePullDownRefresh": false
       }
 
+    }, {
+      "path": "pages/home-search/home-search",
+      "style": {
+        // 取消默认顶部导航栏,custom 定制的
+        "navigationStyle": "custom"
+      }
+
     }
   ],
   "globalStyle": {
@@ -35,8 +42,7 @@
     "color": "#666",
     "selectedColor": "#F07373",
     "backgroundColor": "#FFF",
-    "list": [
-      {
+    "list": [{
         "pagePath": "pages/tabbar/index/index",
         "iconPath": "static/home.png",
         "selectedIconPath": "static/home-active.png",
