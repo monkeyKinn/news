@@ -126,6 +126,7 @@
           }
 
           .navbar-search-text {
+            width: 100%;
             font-size: 12px;
             color: #999999;
           }

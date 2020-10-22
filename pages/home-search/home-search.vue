@@ -30,26 +30,43 @@
     data() {
       return {
         // historyList: []
-        isHistory: false,
-        searchList: [] 
+        isHistory: true,
+        searchList: []
       }
     },
     onLoad() {
-      this.getList()
     },
     methods: {
       change(value) {
-        console.log('接受的value: ', value);
+        if(!value) {
+          clearTimeout(this.timer);
+          this.maker = false; 
+          this.getSearch(value);
+          return
+        }
+        // 搜索请求延时
+        if (!this.maker) {
+          this.maker = true;
+          this.timer = setTimeout(() => {
+            this.maker = false;
+            this.getSearch(value)
+          }, 1000)
+        }
       },
-      getList(current) {
-        this.$api.get_list({
-          name: '全部',
-          page: 1,
-          pageSize: 20
+      getSearch(value) {
+        if(!value){
+          this.searchList = [];
+          this.isHistory = true;
+          return
+        }
+        this.isHistory = false
+        this.$api.get_search({
+          value,
         }).then(res => {
           const {
             data
           } = res;
+          console.log(res);
           this.searchList = data
         })
       },
