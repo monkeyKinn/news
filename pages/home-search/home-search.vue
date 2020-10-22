@@ -2,7 +2,7 @@
   <view class="home">
     <navbar :isSearch="true" @input="change"></navbar>
     <view class="historySearchList">
-      <view class="label-box">
+      <view class="label-box" v-if="isHistory">
         <view class="label-header">
           <text class="historySearchList-title">搜索历史</text>
           <text class="historySearchList-clear">清空</text>
@@ -14,32 +14,53 @@
           没有搜索历史
         </view>
       </view>
-      <button type="default" @click="testBtn">add</button>
+      <list-scroll v-else class="list-scroll">
+        <list-card v-for="item in searchList" :key="item._id" :item="item"></list-card>
+      </list-scroll>
     </view>
 
   </view>
 </template>
 
 <script>
-  import {mapState} from 'vuex';
+  import {
+    mapState
+  } from 'vuex';
   export default {
     data() {
       return {
         // historyList: []
+        isHistory: false,
+        searchList: [] 
       }
+    },
+    onLoad() {
+      this.getList()
     },
     methods: {
       change(value) {
-        console.log('接受的value: ',value);
+        console.log('接受的value: ', value);
       },
-      testBtn(){
-        this.$store.dispatch('set_history',{
-          name:'jin'
+      getList(current) {
+        this.$api.get_list({
+          name: '全部',
+          page: 1,
+          pageSize: 20
+        }).then(res => {
+          const {
+            data
+          } = res;
+          this.searchList = data
+        })
+      },
+      testBtn() {
+        this.$store.dispatch('set_history', {
+          name: 'jin'
         })
       }
     },
     // 计算属性
-    computed:{
+    computed: {
       ...mapState(['historyList'])
     }
   }
