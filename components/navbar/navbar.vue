@@ -20,12 +20,7 @@
         </view>
         <view class="navbar-search" v-else>
           <!-- 搜索页显示 -->
-          <input class="navbar-search-text" 
-          type="text" 
-          placeholder="请输入您要搜索的内容" 
-          v-model="val"
-          @input="inputChange"
-          >
+          <input class="navbar-search-text" type="text" placeholder="请输入您要搜索的内容" v-model="val" @input="inputChange">
         </view>
       </view>
 
@@ -38,9 +33,18 @@
 <script>
   export default {
     props: {
+      value: {
+        type: [String, Number],
+        default: ''
+      },
       isSearch: {
         type: Boolean,
         default: false
+      }
+    },
+    watch:{
+      value(newVal){
+        this.val = newVal
       }
     },
     data() {
@@ -61,8 +65,10 @@
         })
       },
       inputChange(e) {
-        const {value} = e.detail
-        this.$emit('input',value)
+        const {
+          value
+        } = e.detail
+        this.$emit('input', value)
       }
     },
     created() {

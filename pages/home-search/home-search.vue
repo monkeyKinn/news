@@ -1,6 +1,6 @@
 <template>
   <view class="home">
-    <navbar :isSearch="true" @input="change"></navbar>
+    <navbar :isSearch="true" @input="change" v-model="value"></navbar>
     <view class="historySearchList">
       <view class="label-box" v-if="isHistory">
         <view class="label-header">
@@ -8,14 +8,20 @@
           <text class="historySearchList-clear">清空</text>
         </view>
         <view class="label-content" v-if="historyList.length > 0">
-          <view class="label-content_item" v-for="item in historyList">{{item.name}} 内容</view>
+          <view class="label-content_item" v-for="item in historyList" @click="openHistory(item)">{{item.name}}</view>
         </view>
         <view class="noData" v-else>
           没有搜索历史
         </view>
       </view>
       <list-scroll v-else class="list-scroll">
-        <list-card v-for="item in searchList" :key="item._id" :item="item"></list-card>
+        <uni-load-more v-if="loading" status="loading" iconType="snow"></uni-load-more>
+        <view v-if="searchList.length > 0">
+          <list-card v-for="item in searchList" :key="item._id" :item="item" @click="setHistory"></list-card>
+        </view>
+        <view v-if="searchList.length === 0 && !loading" class="noData">
+          没有搜索到相关数据
+        </view>
       </list-scroll>
     </view>
 
@@ -31,16 +37,26 @@
       return {
         // historyList: []
         isHistory: true,
-        searchList: []
+        searchList: [],
+        value: '',
+        loading: false
       }
     },
-    onLoad() {
-    },
+    onLoad() {},
     methods: {
+      openHistory(item) {
+        this.value = item.name;
+        this.getSearch(this.value);
+      },
+      setHistory() {
+        this.$store.dispatch('set_history', {
+          name: this.value
+        })
+      },
       change(value) {
-        if(!value) {
+        if (!value) {
           clearTimeout(this.timer);
-          this.maker = false; 
+          this.maker = false;
           this.getSearch(value);
           return
         }
@@ -54,12 +70,13 @@
         }
       },
       getSearch(value) {
-        if(!value){
+        if (!value) {
           this.searchList = [];
           this.isHistory = true;
           return
         }
         this.isHistory = false
+        this.loading = true
         this.$api.get_search({
           value,
         }).then(res => {
@@ -67,12 +84,10 @@
             data
           } = res;
           console.log(res);
+          this.loading = false;
           this.searchList = data
-        })
-      },
-      testBtn() {
-        this.$store.dispatch('set_history', {
-          name: 'jin'
+        }).catch(()=> {
+          this.loading = false
         })
       }
     },
@@ -135,15 +150,14 @@
           color: #666;
         }
       }
-
-      .noData {
-        height: 200px;
-        line-height: 200px;
-        width: 100%;
-        text-align: center;
-        font-size: 12px;
-        color: #666;
-      }
+    }
+    .noData {
+      height: 200px;
+      line-height: 200px;
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+      color: #666;
     }
   }
 </style>
