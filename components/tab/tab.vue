@@ -13,7 +13,7 @@
       </view>
     </scroll-view>
     <!-- 齿轮图标 -->
-    <view class="tab-gear">
+    <view class="tab-gear" @click="open">
       <uni-icons type="gear"  size="26" color="#666"></uni-icons>
     </view>
     
@@ -48,6 +48,11 @@
 			};
 		},
     methods: {
+      open(){
+        uni.navigateTo({
+          url: '/pages/home-label/home-label'
+        })
+      },
       clickTab(item,index){
         this.activeIndex = index;
         // 子传父

@@ -1,7 +1,9 @@
 <template>
   <list-scroll class="list-scroll" @loadmore="loadmore">
-    <list-card v-for="item in list" :key="item._id" :item="item"></list-card>
-    <uni-load-more v-if="list.length === 0 || list.length > 7" :status="load.loading" iconType="snow"></uni-load-more>
+    <view>
+      <list-card v-for="item in list" :key="item._id" :item="item"></list-card>
+    </view>
+    <uni-load-more v-if="list.length === 0 || list.length > 7" :status="load.loading || 'loading' " iconType="snow"></uni-load-more>
   </list-scroll>
 </template>
 
@@ -10,13 +12,13 @@
     props: {
       list: {
         type: Array,
-        default() {
+        default () {
           return []
         }
       },
       load: {
         type: Object,
-        default() {
+        default () {
           return {
             loading: 'loading'
           }
