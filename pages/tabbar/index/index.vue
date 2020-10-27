@@ -78,7 +78,6 @@
     // 撑满整个元素
     flex: 1;
     overflow: hidden;
-
     .home-list {
       flex: 1;
       box-sizing: border-box;

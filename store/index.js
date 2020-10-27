@@ -10,24 +10,34 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   // 数据源
   state: {
-    historyList: []
+    // 本地缓存 || []
+    historyList: uni.getStorageSync('_history') || []
   },
   // 改变数据源中的数据
   mutations: {
-    SET_HISTORY_LIST(state,history) {
+    SET_HISTORY_LIST(state, history) {
       state.historyList = history
+    },
+    CLEAR_HISTORY_LIST(state) {
+      state.historyList = []
     }
   },
   // 修改mutation中的方法,commit调用mutation中的方法
-  actions:{
+  actions: {
     set_history({
       commit,
       state
-    },
-    history) {
+    }, history) {
       let list = state.historyList;
       list.unshift(history)
-      commit('SET_HISTORY_LIST',list)
+      uni.setStorageSync('_history',list)
+      commit('SET_HISTORY_LIST', list)
+    },
+    clear_history({
+      commit
+    }) {
+      uni.removeStorageSync('_history')
+      commit('CLEAR_HISTORY_LIST')
     }
   }
 })

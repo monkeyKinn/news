@@ -7,7 +7,7 @@
       <!-- 导航栏内容 -->
       <view class="navbar-content" :style="{height: navBarHeight + 2 + 'px',width: windowWidth + 'px'}" @click.stop="search_click"
         :class="{search:isSearch}">
-        <view class="navbar-content_search-icon">
+        <view v-if="isSearch" class="navbar-content_search-icon" @click="back">
           <uni-icons type="back" size="22" color="#fff"></uni-icons>
         </view>
         <!-- 搜索 -->
@@ -56,6 +56,11 @@
       };
     },
     methods: {
+      back(){
+        uni.switchTab({
+          url:'/pages/tabbar/index/index'
+        })
+      },
       search_click() {
         if (this.isSearch) return
         console.log('点击了');

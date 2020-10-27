@@ -5,12 +5,12 @@
       <view class="label-box" v-if="isHistory">
         <view class="label-header">
           <text class="historySearchList-title">搜索历史</text>
-          <text class="historySearchList-clear">清空</text>
+          <text class="historySearchList-clear" @click="clearHistory">清空</text>
         </view>
-        <view class="label-content" v-if="historyList.length > 0">
-          <view class="label-content_item" v-for="item in historyList" @click="openHistory(item)">{{item.name}}</view>
+        <view v-if="historyList.length>0" class="label-content">
+          <view class="label-content_item" v-for="(item,index) in historyList" :key="index" @click="openHistory(item)">{{item.name}}</view>
         </view>
-        <view class="noData" v-else>
+        <view v-else class="noData">
           没有搜索历史
         </view>
       </view>
@@ -35,7 +35,6 @@
   export default {
     data() {
       return {
-        // historyList: []
         isHistory: true,
         searchList: [],
         value: '',
@@ -44,6 +43,19 @@
     },
     onLoad() {},
     methods: {
+      clearHistory() {
+        if (this.historyList.length === 0) {
+          uni.showToast({
+            icon: 'none',
+            title: '无历史记录'
+          })
+          return
+        }
+        this.$store.dispatch('clear_history');
+        uni.showToast({
+          title: '清空完成'
+        })
+      },
       openHistory(item) {
         this.value = item.name;
         this.getSearch(this.value);
@@ -86,7 +98,7 @@
           console.log(res);
           this.loading = false;
           this.searchList = data
-        }).catch(()=> {
+        }).catch(() => {
           this.loading = false
         })
       }
@@ -151,6 +163,7 @@
         }
       }
     }
+
     .noData {
       height: 200px;
       line-height: 200px;
