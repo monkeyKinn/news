@@ -3,12 +3,18 @@
     <view class="label-box">
       <view class="label-head">
         <view class="label-title">我的标签</view>
-        <view class="label-edit">编辑</view>
+        <view class="label-edit" @click="toEdit">{{isEdit? '完成' : '编辑'}}</view>
       </view>
       <view class="label-content">
-        <view class="label-content-item" v-for="item in 50">
-          {{item}}标签
-          <uni-icons type="clear" size="20" color="red" class="label-content-item-clear"></uni-icons>
+        <view class="label-content-item" 
+        v-for="(item,index) in labelList" 
+        :key="item._id"
+        >
+          {{item.name}}
+          <uni-icons type="clear" size="19" color="red" class="label-content-item-clear" 
+          v-if="isEdit"
+          @click="del(index)"
+          ></uni-icons>
         </view>
       </view>
     </view>
@@ -19,9 +25,13 @@
         <view class="label-title">标签推荐</view>
       </view>
       <view class="label-content">
-        <view class="label-content-item" v-for="item in 50">
-        {{item}}标签
-        <uni-icons type="" size="20" color="red" class="label-content-item-clear"></uni-icons>
+        <view class="label-content-item" 
+        v-for="(item,index) in list" 
+        :key="item._id"
+        @click="add(index)"
+        >
+          {{item.name}}
+          <uni-icons type="" size="15" color="red" class="label-content-item-clear"></uni-icons>
         </view>
       </view>
     </view>
@@ -32,11 +42,42 @@
   export default {
     data() {
       return {
-
+        isEdit: false,
+        labelList: [],
+        list: []
       }
     },
+    onLoad() {
+      this.getLabel()
+    },
     methods: {
-
+      del(index) {
+        this.list.push(this.labelList[index])
+        this.labelList.splice(index,1)
+      },
+      add(index) {
+        if(!this.isEdit) return
+        this.labelList.push(this.list[index])
+        this.list.splice(index,1)
+      },
+      toEdit() {
+        this.isEdit = !this.isEdit
+      },
+      getLabel() {
+        this.$api.get_label({
+          type: 'all'
+        }).then(res => {
+          console.log(res);
+          const {
+            data
+          } = res;
+          // 只返回item中current为true的所有数据
+          this.labelList = data.filter(item => item.current)
+          this.list = data.filter(item => !item.current)
+          console.log("labelList: ", this.labelList);
+          console.log("list: ", this.list);
+        })
+      }
     }
   }
 </script>
@@ -79,10 +120,13 @@
           border: 1px solid #666;
           font-size: 14px;
           color: #666;
+
           .label-content-item-clear {
+            background-color: #fff;
             position: absolute;
-            right: -10px;
+            right: -8px;
             bottom: 15px;
+            border-radius: 50%;
           }
         }
       }
