@@ -6,15 +6,9 @@
         <view class="label-edit" @click="toEdit">{{isEdit? '完成' : '编辑'}}</view>
       </view>
       <view class="label-content">
-        <view class="label-content-item" 
-        v-for="(item,index) in labelList" 
-        :key="item._id"
-        >
+        <view class="label-content-item" v-for="(item,index) in labelList" :key="item._id">
           {{item.name}}
-          <uni-icons type="clear" size="19" color="red" class="label-content-item-clear" 
-          v-if="isEdit"
-          @click="del(index)"
-          ></uni-icons>
+          <uni-icons type="clear" size="19" color="red" class="label-content-item-clear" v-if="isEdit" @click="del(index)"></uni-icons>
         </view>
       </view>
     </view>
@@ -25,13 +19,9 @@
         <view class="label-title">标签推荐</view>
       </view>
       <view class="label-content">
-        <view class="label-content-item" 
-        v-for="(item,index) in list" 
-        :key="item._id"
-        @click="add(index)"
-        >
+        <view class="label-content-item" v-for="(item,index) in list" :key="item._id" @click="add(index)">
           {{item.name}}
-          <uni-icons type="" size="15" color="red" class="label-content-item-clear"></uni-icons>
+          <uni-icons type="plus-filled" size="19" color="green" class="label-content-item-clear" v-if="isEdit"></uni-icons>
         </view>
       </view>
     </view>
@@ -51,17 +41,40 @@
       this.getLabel()
     },
     methods: {
+      setUpdateLabel(label) {
+        let newArryIds = []
+        label.forEach(item => {
+          newArryIds.push(item._id)
+        })
+        uni.showLoading();
+        this.$api.update_label({
+          label: newArryIds
+        }).then(res => {
+          uni.hideLoading();
+          uni.showToast({
+            title: '编辑成功',
+            icon: 'none'
+          })  
+          console.log(res);
+        })
+      },
       del(index) {
         this.list.push(this.labelList[index])
-        this.labelList.splice(index,1)
+        this.labelList.splice(index, 1)
       },
       add(index) {
-        if(!this.isEdit) return
+        if (!this.isEdit) return
         this.labelList.push(this.list[index])
-        this.list.splice(index,1)
+        this.list.splice(index, 1)
       },
       toEdit() {
-        this.isEdit = !this.isEdit
+        if (this.isEdit) {
+          this.isEdit = false
+          this.setUpdateLabel(this.labelList)
+        } else {
+          
+          this.isEdit = true
+        }
       },
       getLabel() {
         this.$api.get_label({
